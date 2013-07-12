@@ -94,9 +94,9 @@ define git::clone(
       exec { "git_clone_checkout_$tag_$localtree/$_name":
         user        => $git::params::user,
         cwd         => "$localtree/$_name",
-        command     => "git checkout ${revision}",
+        command     => "git checkout ${tag}",
         unless      => "grep ${revision} .git/HEAD",
-        onlyif      => "grep \"${revision} refs\/tags\/${tag}\" .git/packed-refs",
+        #onlyif      => "grep \"${revision} refs\/tags\/${tag}\" .git/packed-refs",
         require     => Exec["git_clone_exec_$localtree/$_name"],
         environment => 'SSH_ASKPASS=/bin/false',
       }
