@@ -64,7 +64,7 @@ define git::clone(
       exec { "git_clone_fetch_$localtree/$_name":
         user        => $git::params::user,
         cwd         => "$localtree/$_name",
-        command     => "git fetch",
+        command     => "git fetch --tags",
         onlyif      => "test -f $localtree/$_name/.git/HEAD",
         environment => 'SSH_ASKPASS=/bin/false',
       }
