@@ -57,7 +57,7 @@ define git::clone(
     }
     realize(File["$localtree"])
   }
-
+/*
   case $fetch {
     false: {}
     default: {
@@ -70,7 +70,7 @@ define git::clone(
       }
     }
   }
-
+*/
   case $branch {
     false: {}
     default: {
@@ -84,7 +84,7 @@ define git::clone(
       }
     }
   }
-
+/*
   case $tag {
     false: {}
     default: {
@@ -102,4 +102,5 @@ define git::clone(
       }
     }
   }
+*/
 }

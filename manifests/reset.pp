@@ -31,7 +31,7 @@ define git::reset($localtree = "/srv/git/", $real_name = false, $clean = true) {
       false => "$localtree/$name",
       default => "$localtree/$real_name"
     },
-    command     => "git reset --hard HEAD"
+    command     => "git reset --hard HEAD",
     environment => 'SSH_ASKPASS=/bin/false',
   }
 
