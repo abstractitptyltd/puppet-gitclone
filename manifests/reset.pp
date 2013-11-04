@@ -1,4 +1,4 @@
-# Class: git::reset
+# Class: gitclone::reset
 #
 # This class does stuff that you describe here
 #
@@ -14,7 +14,7 @@
 #
 # Sample Usage:
 #
-define git::reset($localtree = "/srv/git/", $real_name = false, $clean = true) {
+define gitclone::reset($localtree = "/srv/git/", $real_name = false, $clean = true) {
 
   #
   # Resource to reset changes in a working directory
@@ -36,7 +36,7 @@ define git::reset($localtree = "/srv/git/", $real_name = false, $clean = true) {
   }
 
   if $clean {
-    git::clean { "$name":
+    gitclone::clean { "$name":
       localtree => "$localtree",
       real_name => "$real_name"
     }

@@ -1,4 +1,4 @@
-git
+gitclone
 ====
 
 ####Table of Contents

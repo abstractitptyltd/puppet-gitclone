@@ -1,4 +1,4 @@
-# Class: git::clean
+# Class: gitclone::clean
 #
 # This class does stuff that you describe here
 #
@@ -14,7 +14,7 @@
 #
 # Sample Usage:
 #
-define git::clean($localtree = "/srv/git/", $real_name = false) {
+define gitclone::clean($localtree = "/srv/git/", $real_name = false) {
 
   # Resource to clean out a working directory
   # Useful for directories you want to pull from upstream, but might
@@ -22,9 +22,9 @@ define git::clean($localtree = "/srv/git/", $real_name = false) {
   # by default.
   #
 
-  include git::params
+  include gitclone::params
   exec { "git_clean_exec_$name":
-    user      => $git::params::user,
+    user      => $gitclone::params::user,
     cwd       => $real_name ? {
       false   => "$localtree/$name",
       default => "$localtree/$real_name"

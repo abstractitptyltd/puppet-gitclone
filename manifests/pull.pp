@@ -1,4 +1,4 @@
-define git::pull(
+define gitclone::pull(
   $localtree = "/srv/git/",
   $real_name = false,
   $reset = true,
@@ -16,7 +16,7 @@ define git::pull(
   # Note that to prevent a clean to be executed as part of the reset, you
   # can set $clean to false
   #
-  include git::params
+  include gitclone::params
 
   if $real_name != false {
     $_name = $real_name
@@ -25,7 +25,7 @@ define git::pull(
   }
 
   if $reset {
-    git::reset { "$name":
+    gitclone::reset { "$name":
       localtree => "$localtree",
       real_name => "$real_name",
       clean => $clean
@@ -33,7 +33,7 @@ define git::pull(
   }
 
   @exec { "git_pull_exec_$name":
-    user        => $git::params::user,
+    user        => $gitclone::params::user,
     cwd         => "$localtree/$_name",
     command     => "git pull",
     onlyif      => "test -d $localtree/$_name/.git/info",
@@ -44,7 +44,7 @@ define git::pull(
     false: {}
     default: {
       exec { "git_pull_checkout_$branch_$localtree/$_name":
-        user        => $git::params::user,
+        user        => $gitclone::params::user,
         cwd         => "$localtree/$_name",
         command     => "git checkout --track -b $branch origin/$branch",
         creates     => "$localtree/$_name/refs/heads/$branch",
@@ -53,15 +53,15 @@ define git::pull(
     }
   }
 
-  if defined(Git::Reset["$name"]) {
+  if defined(Gitclone::Reset["$name"]) {
     Exec["git_pull_exec_$name"] {
-      require +> Git::Reset["$name"]
+      require +> Gitclone::Reset["$name"]
     }
   }
 
-  if defined(Git::Clean["$name"]) {
+  if defined(Gitclone::Clean["$name"]) {
     Exec["git_pull_exec_$name"] {
-      require +> Git::Clean["$name"]
+      require +> Gitclone::Clean["$name"]
     }
   }
 

@@ -1,4 +1,4 @@
-# Class: git
+# Class: gitclone
 #
 # This class does stuff that you describe here
 #
@@ -14,7 +14,7 @@
 #
 # Sample Usage:
 #
-class git {
-  include git::params
-  include git::install
+class gitclone {
+  include gitclone::params
+  include gitclone::install
 }

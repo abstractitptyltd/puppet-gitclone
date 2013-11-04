@@ -1,4 +1,4 @@
-# Class: git::install
+# Class: gitclone::install
 #
 # This class does stuff that you describe here
 #
@@ -14,7 +14,7 @@
 #
 # Sample Usage:
 #
-class git::install {
-  include git::params
-  ensure_packages($git::params::gitpackages)
+class gitclone::install {
+  include gitclone::params
+  ensure_packages($gitclone::params::gitpackages)
 }

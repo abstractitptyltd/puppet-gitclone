@@ -1,4 +1,4 @@
-# Class: git::params
+# Class: gitclone::params
 #
 # This class does stuff that you describe here
 #
@@ -14,7 +14,7 @@
 #
 # Sample Usage:
 #
-class git::params (
+class gitclone::params (
   $gitpackages = ["git"],
   $user,
   $group,

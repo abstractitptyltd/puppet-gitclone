@@ -1,4 +1,4 @@
-define git::fetch(
+define gitclone::fetch(
   $localtree = "/srv/git/",
   $real_name = false,
   $reset = true,
@@ -18,7 +18,7 @@ define git::fetch(
   # Note that to prevent a clean to be executed as part of the reset, you
   # can set $clean to false
   #
-  include git::params
+  include gitclone::params
 
   if $real_name != false {
     $_name = $real_name
@@ -27,7 +27,7 @@ define git::fetch(
   }
 
   if $reset {
-    git::reset { "$name":
+    gitclone::reset { "$name":
       localtree => "$localtree",
       real_name => "$_name",
       clean => $clean
@@ -35,7 +35,7 @@ define git::fetch(
   }
 
   @exec { "git_fetch_exec_$name":
-    user        => $git::params::user,
+    user        => $gitclone::params::user,
     cwd         => "$localtree/$_name",
     command     => "git fetch --tags",
     onlyif      => "test -d $localtree/$_name/.git/info",
@@ -46,7 +46,7 @@ define git::fetch(
     false: {}
     default: {
       exec { "git_fetch_checkout_$branch_$localtree/$_name":
-        user        => $git::params::user,
+        user        => $gitclone::params::user,
         cwd         => "$localtree/$_name",
         command     => "git checkout --track -b $branch origin/$branch",
         creates     => "$localtree/$_name/refs/heads/$branch",
@@ -62,7 +62,7 @@ define git::fetch(
         fail("tag needs a revision")
       }
       exec { "git_fetch_checkout_$tag_$localtree/$_name":
-        user        => $git::params::user,
+        user        => $gitclone::params::user,
         cwd         => "$localtree/$_name",
         command     => "git checkout ${tag}",
         unless      => "grep ${revision} .git/HEAD",
@@ -72,15 +72,15 @@ define git::fetch(
     }
   }
 
-  if defined(Git::Reset["$name"]) {
+  if defined(Gitclone::Reset["$name"]) {
     Exec["git_fetch_exec_$name"] {
-      require +> Git::Reset["$name"]
+      require +> Gitclone::Reset["$name"]
     }
   }
 
-  if defined(Git::Clean["$name"]) {
+  if defined(Gitclone::Clean["$name"]) {
     Exec["git_fetch_exec_$name"] {
-      require +> Git::Clean["$name"]
+      require +> Gitclone::Clean["$name"]
     }
   }
 

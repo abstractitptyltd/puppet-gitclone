@@ -1,4 +1,4 @@
-# Define git::clone
+# Define gitclone::clone
 #
 # Parameters:
 #   $source
@@ -22,7 +22,7 @@
 #
 # Sample Usage:
 #
-define git::clone(
+define gitclone::clone(
   $source,
   $localtree = "/srv/git/",
   $real_name = false,
@@ -31,7 +31,7 @@ define git::clone(
   $tag = false,
   $revision = false)
 {
-  include git::params
+  include gitclone::params
   if $real_name != false {
     $_name = $real_name
   } else {
@@ -39,7 +39,7 @@ define git::clone(
   }
 
   exec { "git_clone_exec_$localtree/$_name":
-    user        => $git::params::user,
+    user        => $gitclone::params::user,
     cwd         => $localtree,
     command     => "git clone $source $_name",
     creates     => "$localtree/$_name/.git/",
@@ -52,8 +52,8 @@ define git::clone(
   } else {
     @file { "$localtree":
       ensure => directory,
-      owner  => $git::params::user,
-      group  => $git::params::group,
+      owner  => $gitclone::params::user,
+      group  => $gitclone::params::group,
     }
     realize(File["$localtree"])
   }
@@ -62,7 +62,7 @@ define git::clone(
     false: {}
     default: {
       exec { "git_clone_fetch_$localtree/$_name":
-        user        => $git::params::user,
+        user        => $gitclone::params::user,
         cwd         => "$localtree/$_name",
         command     => "git fetch --tags",
         onlyif      => "test -f $localtree/$_name/.git/HEAD",
@@ -75,7 +75,7 @@ define git::clone(
     false: {}
     default: {
       exec { "git_clone_checkout_$branch_$localtree/$_name":
-        user        => $git::params::user,
+        user        => $gitclone::params::user,
         cwd         => "$localtree/$_name",
         command     => "git checkout --track -b $branch origin/$branch",
         creates     => "$localtree/$_name/.git/refs/heads/$branch",
@@ -92,7 +92,7 @@ define git::clone(
         fail("tag needs a revision")
       }
       exec { "git_clone_checkout_$tag_$localtree/$_name":
-        user        => $git::params::user,
+        user        => $gitclone::params::user,
         cwd         => "$localtree/$_name",
         command     => "git checkout ${tag}",
         unless      => "grep ${revision} .git/HEAD",
