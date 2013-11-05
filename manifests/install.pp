@@ -16,5 +16,5 @@
 #
 class gitclone::install {
   include gitclone::params
-  ensure_packages($gitclone::params::gitpackages)
+  #ensure_packages($gitclone::params::gitpackages)
 }

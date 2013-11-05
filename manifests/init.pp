@@ -16,5 +16,5 @@
 #
 class gitclone {
   include gitclone::params
-  include gitclone::install
+  #include gitclone::install
 }
