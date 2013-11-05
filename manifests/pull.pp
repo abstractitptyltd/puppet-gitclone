@@ -39,7 +39,7 @@ define gitclone::pull(
     onlyif      => "test -d $localtree/$_name/.git/info",
     environment => 'SSH_ASKPASS=/bin/false',
   }
-
+/*
   case $branch {
     false: {}
     default: {
@@ -52,7 +52,7 @@ define gitclone::pull(
       }
     }
   }
-
+*/
   if defined(Gitclone::Reset["$name"]) {
     Exec["git_pull_exec_$name"] {
       require +> Gitclone::Reset["$name"]

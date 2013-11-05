@@ -41,7 +41,7 @@ define gitclone::clone(
   exec { "git_clone_exec_$localtree/$_name":
     user        => $gitclone::params::user,
     cwd         => $localtree,
-    command     => "git clone $source $_name",
+    command     => $branch ? { false => "git clone ${source} ${_name}", default => "git clone -b ${branch} ${source} ${_name}" },
     creates     => "$localtree/$_name/.git/",
     require     => File["$localtree"],
     environment => 'SSH_ASKPASS=/bin/false',
@@ -71,6 +71,7 @@ define gitclone::clone(
     }
   }
 */
+/*
   case $branch {
     false: {}
     default: {
@@ -84,6 +85,7 @@ define gitclone::clone(
       }
     }
   }
+*/
 /*
   case $tag {
     false: {}
