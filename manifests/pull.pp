@@ -38,6 +38,7 @@ define gitclone::pull(
     command     => "git pull",
     onlyif      => "test -d $localtree/$_name/.git/info",
     environment => 'SSH_ASKPASS=/bin/false',
+    path    => ["/bin", "/usr/bin", "/usr/sbin"],
   }
 /*
   case $branch {

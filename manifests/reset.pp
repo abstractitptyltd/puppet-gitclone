@@ -33,6 +33,7 @@ define gitclone::reset($localtree = "/srv/git/", $real_name = false, $clean = tr
     },
     command     => "git reset --hard HEAD",
     environment => 'SSH_ASKPASS=/bin/false',
+    path    => ["/bin", "/usr/bin", "/usr/sbin"],
   }
 
   if $clean {

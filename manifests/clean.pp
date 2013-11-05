@@ -31,5 +31,6 @@ define gitclone::clean($localtree = "/srv/git/", $real_name = false) {
     },
     command     => "git clean -d -f",
     environment => 'SSH_ASKPASS=/bin/false',
+    path    => ["/bin", "/usr/bin", "/usr/sbin"],
   }
 }
