@@ -45,6 +45,7 @@ define gitclone::clone(
     creates     => "$localtree/$_name/.git/",
     require     => File["$localtree"],
     environment => 'SSH_ASKPASS=/bin/false',
+    path    => ["/bin", "/usr/bin", "/usr/sbin"],
   }
 
   if defined(File["$localtree"]) {
