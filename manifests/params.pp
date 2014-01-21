@@ -18,6 +18,7 @@ class gitclone::params (
   $gitpackages = ["git"],
   $user,
   $group,
+  $timeout = '300',
 ){
   
 }

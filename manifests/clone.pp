@@ -41,11 +41,12 @@ define gitclone::clone(
   exec { "git_clone_exec_$localtree/$_name":
     user        => $gitclone::params::user,
     cwd         => $localtree,
-    command     => $branch ? { false => "git clone ${source} ${_name}", default => "git clone -b ${branch} ${source} ${_name}" },
+    command     => $branch ? { false                  => "git clone ${source} ${_name}", default => "git clone -b ${branch} ${source} ${_name}" },
     creates     => "$localtree/$_name/.git/",
     require     => File["$localtree"],
     environment => 'SSH_ASKPASS=/bin/false',
-    path    => ["/bin", "/usr/bin", "/usr/sbin"],
+    path        => ["/bin", "/usr/bin", "/usr/sbin"],
+    timeout     => $gitclone::params::timeout,
   }
 
   if defined(File["$localtree"]) {

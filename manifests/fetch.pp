@@ -40,7 +40,8 @@ define gitclone::fetch(
     command     => "git fetch --tags",
     onlyif      => "test -d $localtree/$_name/.git/info",
     environment => 'SSH_ASKPASS=/bin/false',
-    path    => ["/bin", "/usr/bin", "/usr/sbin"],
+    path        => ["/bin", "/usr/bin", "/usr/sbin"],
+    timeout     => $gitclone::params::timeout,
   }
 
   case $branch {
@@ -52,7 +53,8 @@ define gitclone::fetch(
         command     => "git checkout --track -b $branch origin/$branch",
         creates     => "$localtree/$_name/refs/heads/$branch",
         environment => 'SSH_ASKPASS=/bin/false',
-	    path    => ["/bin", "/usr/bin", "/usr/sbin"],
+	      path        => ["/bin", "/usr/bin", "/usr/sbin"],
+        timeout     => $gitclone::params::timeout,
       }
     }
   }
@@ -68,9 +70,9 @@ define gitclone::fetch(
         cwd         => "$localtree/$_name",
         command     => "git checkout ${tag}",
         unless      => "grep ${revision} .git/HEAD",
-        #onlyif      => "grep \"${revision} refs\/tags\/${tag}\" .git/packed-refs",
+        #onlyif     => "grep \"${revision} refs\/tags\/${tag}\" .git/packed-refs",
         environment => 'SSH_ASKPASS=/bin/false',
-	    path    => ["/bin", "/usr/bin", "/usr/sbin"],
+	      path        => ["/bin", "/usr/bin", "/usr/sbin"],
       }
     }
   }
